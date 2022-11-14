@@ -15,11 +15,19 @@ export const GameProvider = ({ children }) => {
         if (callback) { callback(); }
     }
 
+    const deleteGame = (gameName, callback) => {
+        dispatch({ type: "remove", payload: { gameName: gameName } });
+        // dispatch({ type: actionTypes.save });
+        if (callback) callback();
+    }
+
     return (
         <GameContext.Provider
             value={{
                 state: state,
-                create: addGame
+                create: addGame,
+                remove: deleteGame
+
             }}>
             {children}
 
@@ -72,6 +80,10 @@ const reducer = (state, action) => {
                 }
 
             ];
+
+        case "remove":
+            return state.filter((game) => game.gameName !== action.payload.gameName);
+
 
         //case action: return
 

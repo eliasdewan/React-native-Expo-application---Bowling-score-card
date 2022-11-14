@@ -1,11 +1,12 @@
 import { Text, TextInput, View, StyleSheet, Pressable, FlatList } from "react-native";
 import { useContext } from "react";
 import GameContext from "../../contexts/GameContext";
+import { Ionicons ,MaterialIcons} from '@expo/vector-icons';
 
 
 
 const GameList = ({ navigation }) => {
-    const { state } = useContext(GameContext);
+    const { state, remove } = useContext(GameContext);
     console.log(state, " From game list");
     return (
         <View style={styles.container}>
@@ -35,6 +36,12 @@ const GameList = ({ navigation }) => {
                                 <Text>Rink number: {item.rink}</Text>
                                 <Text>Teams :{item.teamName}</Text>
 
+                                <Pressable
+                                    onPress={() => {
+                                        remove(item.gameName)
+                                    }}>
+                                    <MaterialIcons name="delete" size={24} color="black" />
+                                </Pressable>
                             </View >
                         </Pressable>
                     )
