@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import GameContext from "../../contexts/GameContext";
 
 
-const CreateGame = ({ navigation }) => {
+const editGame = ({ navigation }) => {
      const [gameName, setGameName] = useState("Casual Lawn bowling");
      const [date, setDate] = useState(new Date().toDateString());
      const [rink, setRink] = useState(1);
@@ -38,14 +38,14 @@ const CreateGame = ({ navigation }) => {
           </View>
      )
 }
-export default CreateGame;
+export default editGame;
 
 function Addnav({ navigation }) {
      return (
 
           <Stack.Navigator>
                <Stack.Screen name="Add" codamponent={Add} />
-               <Stack.Screen name="Create" component={CreateGame} />
+               <Stack.Screen name="Create" component={editGame} />
 
           </Stack.Navigator>
 
