@@ -28,8 +28,7 @@ const CreateGame = ({ navigation }) => {
                <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue="Team 2" onChangeText={(text) => { setTeamName(teamName => [...teamName, text]); }} />
 
                <Button title="CREATE GAME " onPress={() => {
-                    create(gameName, date, rink, numberOfPlayers, () => navigation.goBack());
-                    () => navigation.navigate('List');
+                    create(gameName, date, rink, numberOfPlayers,teamName ,() => navigation.navigate('List'));
                     
                     //create(gameName, date, rink, numberOfPlayers, setTeamName, () => navigation.pop());
 

@@ -21,12 +21,17 @@ export const GameProvider = ({ children }) => {
         if (callback) callback();
     }
 
+    const editGame = (gameName, date, rink, numberOfPlayers, callback) => {
+        dispatch({ type: "edit", payload: { gameName, date, rink, numberOfPlayers, teamName } })
+        if (callback) { callback(); }
+    }
     return (
         <GameContext.Provider
             value={{
                 state: state,
                 create: addGame,
-                remove: deleteGame
+                remove: deleteGame,
+                update: editGame
 
             }}>
             {children}
@@ -84,7 +89,14 @@ const reducer = (state, action) => {
         case "remove":
             return state.filter((game) => game.gameName !== action.payload.gameName);
 
-
+        case "edit":
+            return state.map((game) => {
+                if (game.gameName === action.payload.gameName) {
+                    return action.payload;
+                } else {
+                    return game;
+                }
+            });
         //case action: return
 
     }

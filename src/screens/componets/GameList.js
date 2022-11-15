@@ -1,8 +1,8 @@
 import { Text, TextInput, View, StyleSheet, Pressable, FlatList } from "react-native";
 import { useContext } from "react";
 import GameContext from "../../contexts/GameContext";
-import { Ionicons ,MaterialIcons} from '@expo/vector-icons';
-
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import EditGame from "./EditGame";
 
 
 const GameList = ({ navigation }) => {
@@ -17,17 +17,12 @@ const GameList = ({ navigation }) => {
                 </Text>
             </Pressable>
 
-
-
             <FlatList
                 data={state}
                 keyExtractor={(e) => e.gameName.toString()}
                 renderItem={({ item }) => {
                     return (
-                        <Pressable onPress={() => navigation.navigate('View', {
-                            gameName: item.gameName,
-                            date: item.date,
-                        })}>
+                        <Pressable onPress={() => navigation.navigate(EditGame, { gameName: item.gameName })}>
 
                             <View style={styles.container} >
                                 <Text> {item.gameName}</Text>
