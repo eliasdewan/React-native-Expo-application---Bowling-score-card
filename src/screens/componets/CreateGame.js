@@ -23,13 +23,13 @@ const CreateGame = ({ navigation }) => {
                <Text>Select number of payers (2-4):</Text>
                <TextInput style={styles.TextInput} placeholder="Number of Players" defaultValue="2" onChangeText={(text) => { setNumberOfPlayers(text); }} />
                <Text>Customize first team name:</Text>
-               <TextInput style={styles.TextInput} placeholder="First team name" defaultValue="Team 1" onChangeText={(text) => { setTeamName(teamName => [...teamName, text]); }} />
+               <TextInput style={styles.TextInput} placeholder="First team name" defaultValue="Team 1" onChangeText={(text) => { setTeamName(teamName => [text, ...teamName.slice(1)]); }} />
                <Text>Customize second team name</Text>
-               <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue="Team 2" onChangeText={(text) => { setTeamName(teamName => [...teamName, text]); }} />
+               <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue="Team 2" onChangeText={(text) => { setTeamName(teamName => [...teamName.slice(0,1), text]); }} />
 
                <Button title="CREATE GAME " onPress={() => {
-                    create(gameName, date, rink, numberOfPlayers,teamName ,() => navigation.navigate('List'));
-                    
+                    create(gameName, date, rink, numberOfPlayers, teamName, () => navigation.navigate('List'));
+
                     //create(gameName, date, rink, numberOfPlayers, setTeamName, () => navigation.pop());
 
 

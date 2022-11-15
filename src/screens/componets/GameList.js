@@ -2,7 +2,7 @@ import { Text, TextInput, View, StyleSheet, Pressable, FlatList } from "react-na
 import { useContext } from "react";
 import GameContext from "../../contexts/GameContext";
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import EditGame from "./EditGame";
+//import EditGame from "./EditGame";
 
 
 const GameList = ({ navigation }) => {
@@ -19,11 +19,11 @@ const GameList = ({ navigation }) => {
 
             <FlatList
                 data={state}
-                keyExtractor={(e) => e.gameName.toString()}
+                keyExtractor={(game) => game.id.toString()}
                 renderItem={({ item }) => {
                     return (
-                        <Pressable onPress={() => navigation.navigate(EditGame, { gameName: item.gameName })}>
-
+                        // <Pressable onPress={() => navigation.navigate("EditGame", { id: item.id })}>
+                        <Pressable onPress={() => navigation.navigate("EndScore", { id: item.id })}>
                             <View style={styles.container} >
                                 <Text> {item.gameName}</Text>
                                 <Text>{item.date}</Text>
@@ -31,11 +31,17 @@ const GameList = ({ navigation }) => {
                                 <Text>Rink number: {item.rink}</Text>
                                 <Text>Teams :{item.teamName}</Text>
 
+
+
+                                <Pressable onPress={() => navigation.navigate("EditGame", { id: item.id })}>
+                                    <MaterialIcons name="edit" size={48} color="black" />
+                                </Pressable>
+
                                 <Pressable
                                     onPress={() => {
-                                        remove(item.gameName)
+                                        remove(item.id)
                                     }}>
-                                    <MaterialIcons name="delete" size={24} color="black" />
+                                    <MaterialIcons name="delete" size={48} color="black" />
                                 </Pressable>
                             </View >
                         </Pressable>

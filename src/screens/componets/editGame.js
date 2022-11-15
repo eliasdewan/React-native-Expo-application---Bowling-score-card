@@ -6,15 +6,14 @@ import GameContext from "../../contexts/GameContext";
 
 const EditGame = ({ navigation, route }) => {
     const { state, update } = useContext(GameContext);
-    const [gameName, setGameName] = useState(route.params);
-    const game = state.find((game) => game.gameName === gameName);
-    console.log("insidede edit game");
-    console.log(route);
-    console.log(navigation);
+    const { id } = route.params;
+    const game = state.find((game) => game.id === id);
+    const [gameName, setGameName] = useState(game.gameName)
     const [date, setDate] = useState(game.date);
     const [rink, setRink] = useState(game.rink);
     const [numberOfPlayers, setNumberOfPlayers] = useState(game.numberOfPlayers);
     const [teamName, setTeamName] = useState(game.teamName);
+    console.log("use staes now :", gameName, date, rink, numberOfPlayers, teamName)
 
 
     return (
@@ -24,17 +23,16 @@ const EditGame = ({ navigation, route }) => {
             <Text>Customize game date: </Text>
             <TextInput style={styles.TextInput} placeholder="Enter date" defaultValue={date} onChangeText={(text) => { setDate(text); }} />
             <Text>Rink number:</Text>
-            <TextInput style={styles.TextInput} placeholder="Rink Number" defaultValue={rink} onChangeText={(text) => { setRink(text); }} />
+            <TextInput style={styles.TextInput} placeholder="Rink Number" defaultValue={rink.toString()} onChangeText={(text) => { setRink(text); }} />
             <Text>Select number of payers (2-4):</Text>
-            <TextInput style={styles.TextInput} placeholder="Number of Players" defaultValue={numberOfPlayers} onChangeText={(text) => { setNumberOfPlayers(text); }} />
+            <TextInput style={styles.TextInput} placeholder="Number of Players" defaultValue={numberOfPlayers.toString()} onChangeText={(text) => { setNumberOfPlayers(text); }} />
             <Text>Customize first team name:</Text>
-            <TextInput style={styles.TextInput} placeholder="First team name" defaultValue={teamName[0]} onChangeText={(text) => { setTeamName(teamName => teamName[0] = text); }} />
+            <TextInput style={styles.TextInput} placeholder="First team name" defaultValue={teamName[0]} onChangeText={(text) => { setTeamName(list => [text, ...teamName.slice(1)]); }} />
             <Text>Customize second team name</Text>
-            <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue={teamName[1]} onChangeText={(text) => { setTeamName(teamName => teamName[0] = text); }} />
+            <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue={teamName[1]} onChangeText={(text) => { setTeamName(list => [...teamName.slice(0,1), text]); }} />
 
-            <Button title="CONFIRM EDIT " onPress={() => {
-                update(gameName, date, rink, numberOfPlayers, teamName, () => navigation.goBack());
-                () => navigation.navigate('List');
+            <Button title="Go Back " onPress={() => {
+                update(game.id, gameName, date, rink, numberOfPlayers, teamName, () => navigation.pop());
                 //create(gameName, date, rink, numberOfPlayers, setTeamName, () => navigation.pop());
             }} />
         </View>

@@ -7,11 +7,24 @@ import { Ionicons } from '@expo/vector-icons';
 import CreateGame from './src/screens/componets/CreateGame';
 import GameList from './src/screens/componets/GameList';
 import IndexScreen from './src/screens/componets/Indexscreen';
+import EditGame from './src/screens/componets/EditGame';
+import EndScore from './src/screens/componets/EndsScore';
 import { GameProvider } from './src/contexts/GameContext';
 const Tab = createBottomTabNavigator();
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
+
+function GameListNav() {
+  return (
+    <Stack.Navigator initialRouteName='ListView'>
+      <Stack.Screen name="ListView" component={GameList} options={{ title: "Game Screen" }} />
+      <Stack.Screen name="EditGame" component={EditGame} />
+      <Stack.Screen name="EndScore" component={EndScore} />
+
+    </Stack.Navigator>)
+
+}
 
 const App = () => {
 
@@ -48,7 +61,7 @@ const App = () => {
               tabBarLabel: " List of Games",
               tabBarIcon: () => (<Ionicons name="list" size={24} color="black" />)
             }}
-            component={GameList} />
+            component={GameListNav} />
         </Tab.Navigator>
       </NavigationContainer>
     </GameProvider>

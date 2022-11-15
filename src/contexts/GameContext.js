@@ -15,14 +15,16 @@ export const GameProvider = ({ children }) => {
         if (callback) { callback(); }
     }
 
-    const deleteGame = (gameName, callback) => {
-        dispatch({ type: "remove", payload: { gameName: gameName } });
+    const deleteGame = (id, callback) => {
+        dispatch({ type: "remove", payload: { id: id } });
         // dispatch({ type: actionTypes.save });
         if (callback) callback();
     }
 
-    const editGame = (gameName, date, rink, numberOfPlayers, callback) => {
-        dispatch({ type: "edit", payload: { gameName, date, rink, numberOfPlayers, teamName } })
+    const editGame = (id, gameName, date, rink, numberOfPlayers, teamName, callback) => {
+        console.log("In editing context");
+        console.log(gameName, date, rink, numberOfPlayers, teamName, callback);
+        dispatch({ type: "edit", payload: { id, gameName, date, rink, numberOfPlayers, teamName } })
         if (callback) { callback(); }
     }
     return (
@@ -48,36 +50,18 @@ const reducer = (state, action) => {
             return state;
 
         case "create":
-            console.log("Create PAyload =", action.payload);
-            //console.log(action.payload.gameName.match(/[%[^"]+]/))
-
-            //let number = 0;
             state.find((game) => {
                 (
-
                     game.gameName === action.payload.gameName,
                     action.payload.gameName += 1
-                    //     number = (parseInt(action.payload.gameName.match(/[0-9]+$/)[0], 10)),
-                    //  number ++,
-                    //  console.log(number++),
-                    //console.log("number is +1=", number),
-                    // action.payload.gameName = action.payload.gameName.match(/[A-Z a-z]+/)[0],
-                    //  action.payload.gameName += number,
-                    //console.log("number is =", number),
-                    // console.log(action.payload.gameName.match(/[A-Z a-z]+/)[0] + number),
-                    //   console.log(action.payload.gameName.match(/[A-Z a-z]+/)[0]),
-                    // console.log(parseInt(action.payload.gameName.match(/[0-9]+$/)[0], 10) + 1),
-                    //     console.log(action.payload.gameName)
-
                 );
             })
-            //console.log(parseInt(action.payload.gameName.match(/[0-9]+$/)[0], 10)+1);
-            console.log("after find no duplicate");
             return [
                 ...state,
                 {
                     //gameName, date, rink, numberOfPlayers, setTeamName,
-                    gameName: action.payload.gameName,// Math.floor(Math.random() * 99999),// implement uuid
+                    id: Math.floor(Math.random() * 99999),
+                    gameName: action.payload.gameName,
                     date: action.payload.date,
                     rink: action.payload.rink,
                     numberOfPlayers: action.payload.numberOfPlayers,
@@ -87,11 +71,11 @@ const reducer = (state, action) => {
             ];
 
         case "remove":
-            return state.filter((game) => game.gameName !== action.payload.gameName);
+            return state.filter((game) => game.id !== action.payload.id);
 
         case "edit":
             return state.map((game) => {
-                if (game.gameName === action.payload.gameName) {
+                if (game.id === action.payload.id) {
                     return action.payload;
                 } else {
                     return game;
