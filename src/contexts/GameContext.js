@@ -21,19 +21,29 @@ export const GameProvider = ({ children }) => {
         if (callback) callback();
     }
 
-    const editGame = (id, gameName, date, rink, numberOfPlayers, teamName, callback) => {
+    const editGame = (id, gameName, date, rink, numberOfPlayers, teamName, end, callback) => {
         console.log("In editing context");
         console.log(gameName, date, rink, numberOfPlayers, teamName, callback);
-        dispatch({ type: "edit", payload: { id, gameName, date, rink, numberOfPlayers, teamName } })
+
+        dispatch({ type: "edit", payload: { id, gameName, date, rink, numberOfPlayers, teamName, end } })
         if (callback) { callback(); }
     }
+    const addScoreEnd = (id, teamIndex, score, callback) => {
+        console.log({ type: "addScore", payload: { id, teamIndex, score } });
+        dispatch({ type: "addScore", payload: { id, teamIndex, score } })
+        if (callback) { callback(); }
+
+    }
+
+
     return (
         <GameContext.Provider
             value={{
                 state: state,
                 create: addGame,
                 remove: deleteGame,
-                update: editGame
+                update: editGame,
+                addEnd: addScoreEnd
 
             }}>
             {children}
@@ -52,8 +62,8 @@ const reducer = (state, action) => {
         case "create":
             state.find((game) => {
                 (
-                    game.gameName === action.payload.gameName,
-                    action.payload.gameName += 1
+
+                    action.payload.gameName += game.gameName === action.payload.gameName ? 1 : ""
                 );
             })
             return [
@@ -65,7 +75,11 @@ const reducer = (state, action) => {
                     date: action.payload.date,
                     rink: action.payload.rink,
                     numberOfPlayers: action.payload.numberOfPlayers,
-                    teamName: action.payload.teamName
+                    teamName: action.payload.teamName,
+                    end: [
+                        { endScore: [2, 0], photos: ["photos printed"] },
+                        { endScore: [0, 1], photos: ["photos printed 2"] }
+                    ]
                 }
 
             ];
@@ -74,6 +88,8 @@ const reducer = (state, action) => {
             return state.filter((game) => game.id !== action.payload.id);
 
         case "edit":
+            console.log("Edit");
+            console.log(action);
             return state.map((game) => {
                 if (game.id === action.payload.id) {
                     return action.payload;
@@ -81,6 +97,23 @@ const reducer = (state, action) => {
                     return game;
                 }
             });
+        case "addScore":
+
+            console.log("printing payload");
+            console.log(action);
+            console.log(">>>>>" );
+            const score = [0,0]
+            score.splice(action.payload.teamIndex, 1, action.payload.score)
+            console.log(score);
+
+            state.find((game) => game.id === action.payload.id).end = [
+                ...state.find((game) => game.id === action.payload.id).end,
+                { endScore: score, photos: ["photos printed 3"] }
+            ];
+            console.log(state);
+            return state;
+
+
         //case action: return
 
     }

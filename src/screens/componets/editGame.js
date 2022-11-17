@@ -29,10 +29,10 @@ const EditGame = ({ navigation, route }) => {
             <Text>Customize first team name:</Text>
             <TextInput style={styles.TextInput} placeholder="First team name" defaultValue={teamName[0]} onChangeText={(text) => { setTeamName(list => [text, ...teamName.slice(1)]); }} />
             <Text>Customize second team name</Text>
-            <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue={teamName[1]} onChangeText={(text) => { setTeamName(list => [...teamName.slice(0,1), text]); }} />
+            <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue={teamName[1]} onChangeText={(text) => { setTeamName(list => [...teamName.slice(0, 1), text]); }} />
 
-            <Button title="Go Back " onPress={() => {
-                update(game.id, gameName, date, rink, numberOfPlayers, teamName, () => navigation.pop());
+            <Button title="Accept" onPress={() => {
+                update(game.id, gameName, date, rink, numberOfPlayers, teamName, game.end, () => navigation.pop());
                 //create(gameName, date, rink, numberOfPlayers, setTeamName, () => navigation.pop());
             }} />
         </View>
