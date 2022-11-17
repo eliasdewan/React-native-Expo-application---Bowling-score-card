@@ -20,8 +20,8 @@ const EndScore = ({ navigation, route }) => {
     return (
         <View style={styles.scoreBoxContainer}>
             <Text>{game.gameName}</Text>
+            <Text style={styles.scoreText}> Total        ||   Ends   ||       Total</Text>
             <FlatList
-
 
                 data={game.end}
                 renderItem={({ item, index }) => {
@@ -30,9 +30,10 @@ const EndScore = ({ navigation, route }) => {
                             behavior="padding"
                         >
                             <View style={styles.scoreBox}>
-                            {/*   <Text style={styles.scoreText}> Total {item.endScore.reduce((partSum, score) => partSum + score)}  </Text> */}
-                                <Text style={styles.scoreText}>{item.endScore[0]} | end {index} | {item.endScore[1]}</Text>
-                            { /*   <Text style={styles.scoreText}> Total {item.endScore.reduce((partSum, score) => partSum + score)}</Text>  */}
+
+                                <Text style={styles.scoreText}> {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[0], 0)}     </Text>
+                                <Text style={styles.scoreText}>{item.endScore[0]}   |   end {index}   |   {item.endScore[1]}</Text>
+                                <Text style={styles.scoreText}>     {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
                             </View>
                         </KeyboardAvoidingView>
 
@@ -135,6 +136,7 @@ const styles = StyleSheet.create({
     },
     scoreText: {
         fontSize: 20,
+        textAlign: "center"
     },
     scoreBoxContainer: {
         flex: 1,
