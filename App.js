@@ -2,20 +2,25 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, Pressable } from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import { useContext } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import CreateGame from './src/screens/componets/CreateGame';
 import GameList from './src/screens/componets/GameList';
 import IndexScreen from './src/screens/componets/Indexscreen';
 import EditGame from './src/screens/componets/EditGame';
 import EndScore from './src/screens/componets/EndsScore';
-import { GameProvider } from './src/contexts/GameContext';
+import GameContext, { GameProvider } from './src/contexts/GameContext';
 const Tab = createBottomTabNavigator();
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
-function GameListNav() {
+
+function GameListNav({ navigation }) {
+  const { state } = useContext(GameContext);
+
+  navigation.setOptions({ tabBarBadge : state.length > 0 ? state.length :null })
+
   return (
     <Stack.Navigator initialRouteName='ListView'>
       <Stack.Screen name="ListView" component={GameList} options={{ title: "Game Screen" }} />
@@ -27,9 +32,10 @@ function GameListNav() {
 }
 
 const App = () => {
-
+  //const {state} = useContext(GameContext);
   return (
     <GameProvider>
+
       <NavigationContainer>
         <StatusBar style="auto" />
         <Tab.Navigator>
@@ -55,9 +61,10 @@ const App = () => {
             }}
           />
           <Tab.Screen name="List"
+
             options={{
-              title: "Games Played",
-              tabBarBadge: "Loser",
+              title: "Game window",
+              headerShown:false,
               tabBarLabel: " List of Games",
               tabBarIcon: () => (<Ionicons name="list" size={24} color="black" />)
             }}

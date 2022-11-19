@@ -7,30 +7,43 @@ import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 
 const GameList = ({ navigation }) => {
     const { state, remove } = useContext(GameContext);
+    
     console.log(state, " From game list");
+    {
+        if (state.length < 1) {
+            return (
+                <View >
+                    <Text style={styles.goBack}> Yo dont have any game </Text>
+                    <Pressable onPress={() => navigation.navigate('Add')}>
+                        <Text style={styles.goBack}>
+                            GO BACK HOME
+                        </Text>
+                    </Pressable>
+                </View>
+            )
+        }
+    }
     return (
-        <View style={styles.container}>
-            <Text> Yo dont play no game </Text>
-            <Pressable onPress={() => navigation.navigate('Add')}>
-                <Text style={styles.goBack}>
-                    So go back home!
-                </Text>
-            </Pressable>
+        <View >
+
 
             <FlatList
                 data={state}
                 keyExtractor={(game) => game.id.toString()}
                 renderItem={({ item }) => {
+
+
                     return (
                         // <Pressable onPress={() => navigation.navigate("EditGame", { id: item.id })}>
                         <Pressable onPress={() => navigation.navigate("EndScore", { id: item.id })}>
                             <View style={styles.container} >
-                                <Text> {item.gameName}</Text>
-                                <Text>{item.date}</Text>
-                                <Text>Players :{item.numberOfPlayers}</Text>
-                                <Text>Rink number: {item.rink}</Text>
-                                <Text>Teams :{item.teamName}</Text>
-
+                                <View stle={styles.listItem}>
+                                    <Text> {item.gameName}</Text>
+                                    <Text>{item.date}</Text>
+                                    <Text>Players :{item.numberOfPlayers}</Text>
+                                    <Text>Rink number: {item.rink}</Text>
+                                    <Text>Teams :{item.teamName}</Text>
+                                </View>
 
 
                                 <Pressable onPress={() => navigation.navigate("EditGame", { id: item.id })}>
@@ -57,13 +70,21 @@ export default GameList;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        flexDirection: "row",
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingBottom:10,
+        borderBottomWidth:1
+
+    },
+    listItem: {
+        flexDirection: "column"
+
     },
     goBack: {
         fontSize: 30,
-        color: 'red',
+        color: 'teal',
         padding: 20,
     }
 });
