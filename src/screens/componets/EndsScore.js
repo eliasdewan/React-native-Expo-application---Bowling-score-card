@@ -46,7 +46,7 @@ const EndScore = ({ navigation, route }) => {
                 <Text style={styles.scoreText}> Total {game.end.reduce((partSum, score) => partSum + score.endScore[0], 0)}</Text>
                 <Text style={styles.scoreText}> || Total {game.end.reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
             </View>
-            <Text style={styles.scoreBox}>Select a scoring team</Text>
+            <Text style={styles.scoreBox}>Select a scoring team , enter score , press end on keyboard</Text>
             <View style={styles.optionBoxContainer} >
 
                 <Text
@@ -60,11 +60,11 @@ const EndScore = ({ navigation, route }) => {
                     {game.teamName[1]}
                 </Text>
             </View>
-
+                
             <TextInput
                 keyboardType="number-pad"
                 autoFocus={true}
-                placeholder={"type score"}
+                placeholder={score.toString()}
                 returnKeyType="send"
                 maxLength={1}
                 onChangeText={text => setScore(Number(text))}

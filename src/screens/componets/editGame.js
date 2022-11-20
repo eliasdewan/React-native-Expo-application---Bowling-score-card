@@ -29,7 +29,7 @@ const EditGame = ({ navigation, route }) => {
                 </View>
                 <View style={styles.smallBox}>
                     <Text>Rink No.</Text>
-                    <TextInput style={styles.TextInput} placeholder="rink Number" defaultValue={rink.toString()} onChangeText={(text) => { setRink(text); }} />
+                    <TextInput style={styles.TextInput} keyboardType="number-pad" placeholder="rink Number" defaultValue={rink.toString()} onChangeText={(text) => { setRink(text); }} />
                 </View>
             </View>
 
