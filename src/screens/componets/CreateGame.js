@@ -1,5 +1,5 @@
 
-import { Text, TextInput, StyleSheet, View, Button } from "react-native";
+import { Text, TextInput, StyleSheet, View, Button, KeyboardAvoidingView } from "react-native";
 import { useContext, useState } from "react";
 import GameContext from "../../contexts/GameContext";
 
@@ -8,12 +8,15 @@ const CreateGame = ({ navigation }) => {
      const [gameName, setGameName] = useState("Casual Lawn bowling");
      const [date, setDate] = useState(new Date().toDateString());
      const [rink, setRink] = useState(1);
-     const [numberOfPlayers, setNumberOfPlayers] = useState(["will", "not do", "it again", "maybe"]);
+     const [playerNames, setPlayerNames] = useState(["will", "not do", "it again", "maybe"]);
      const [teamName, setTeamName] = useState(["Team 1 ", "Team 2"]);
      const { create } = useContext(GameContext);
 
      return (
-          <View style={styles.container}>
+          <KeyboardAvoidingView
+               style={styles.container}
+               behavior="position"
+          >
                <Text style={styles.text}>Game Name</Text>
                <TextInput style={styles.TextInput} placeholder="Game name" defaultValue="Casual Lawn bowling" onChangeText={(text) => { setGameName(text); }} />
                <View style={styles.smallBoxContainer}>
@@ -29,7 +32,7 @@ const CreateGame = ({ navigation }) => {
                </View>
                <View style={styles.smallBox}>
                     <Text>Number of payers (2-4):</Text>
-                    <TextInput style={styles.TextInput} placeholder="Number of Players" defaultValue="2" onChangeText={(text) => { setNumberOfPlayers(text); }} />
+                    <TextInput style={styles.TextInput} placeholder="Number of Players" defaultValue="2" onChangeText={(text) => { }} />
                </View>
 
                <Text style={styles.text}>Teams</Text>
@@ -54,20 +57,20 @@ const CreateGame = ({ navigation }) => {
                <View style={styles.smallBoxContainer}>
                     <View style={styles.smallBox}>
 
-                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue="JH" onChangeText={(text) => { }} />
+                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue="JH" onChangeText={(text) => { teamName.splice(0, 1, text); console.log("teamname:" + teamName) }} />
                     </View>
                     <View style={styles.smallBox}>
                          <Text style={styles.text}>1</Text>
                     </View>
                     <View style={styles.smallBox}>
 
-                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue="LO" onChangeText={(text) => { }} />
+                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue="LO" onChangeText={(text) => { teamName.splice(1, 1, text); }} />
                     </View>
                </View>
                <View style={styles.smallBoxContainer}>
 
                     <View style={styles.smallBox}>
-                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue="JH" onChangeText={(text) => { }} />
+                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue="JH" onChangeText={(text) => { teamName.splice(2, 1, text); }} />
                     </View>
 
                     <View style={styles.smallBox}>
@@ -75,18 +78,18 @@ const CreateGame = ({ navigation }) => {
                     </View>
                     <View style={styles.smallBox}>
 
-                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue="LO" onChangeText={(text) => { }} />
+                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue="LO" onChangeText={(text) => { teamName.splice(3, 1, text) }} />
                     </View>
                </View>
 
                <Button title="CREATE GAME " onPress={() => {
-                    create(gameName, date, rink, numberOfPlayers, teamName, () => navigation.navigate('List'));
+                    create(gameName, date, rink, playerNames, teamName, () => navigation.navigate('List'));
 
                     //create(gameName, date, rink, numberOfPlayers, setTeamName, () => navigation.pop());
 
 
                }} />
-          </View >
+          </KeyboardAvoidingView >
      )
 }
 export default CreateGame;
