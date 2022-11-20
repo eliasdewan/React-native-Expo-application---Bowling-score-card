@@ -5,19 +5,26 @@ import { MaterialIcons } from '@expo/vector-icons';
 import GameContext from "../../contexts/GameContext"
 
 const EndScore = ({ navigation, route }) => {
-    const { state, addEnd, removeEnd } = useContext(GameContext);
+    const { state, addEnd, editEnd, removeEnd } = useContext(GameContext);
     const { id } = route.params;
 
     let game = state.find((game) => game.id === id);
     const [selectedTeam, setSelectedTeam] = useState(); // implement statr
     const [score, setScore] = useState(0);
-    const [selectedEnd, setSelectedEnd] = useState(null);
+    const [selectedEnd, setSelectedEnd] = useState();
     console.log(game);
-    console.log(game.end[0].endScore);
     console.log("Experiment");
+    console.log(selectedEnd);
     console.log(game.end.map((end, index) => end.endScore + ">" + index));
     console.log(game.end)
     //const end = game.end.map((end) => )
+    navigation.setOptions({
+        headerRight: () => (
+            <Pressable onPress={() => alert("To edit select a line")}>
+                <MaterialIcons name="edit" size={40} color="red" />
+            </Pressable >
+        )
+    })
 
     return (
         <View style={styles.scoreBoxContainer}>
@@ -49,12 +56,12 @@ const EndScore = ({ navigation, route }) => {
                                     <Text style={styles.scoreText}>     {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
                                 </View>
                             </Pressable>
-                            <View style={{ display: selectedEnd === index ? "flex" : "none" }}>
-                                <Text> This is hidden</Text>
-                                <MaterialIcons name="delete" size={50} color="black" />
+                            <View style={[{ alignSelf: "flex-end", display: selectedEnd === index ? "flex" : "none" }]}>
+                                <MaterialIcons onPress={() => { removeEnd(id, index); setScore(0); setSelectedTeam(); setSelectedEnd(); }} name="delete" size={48} color="black" />
+
+
                             </View>
                         </View>
-
 
                     )
                 }}
@@ -92,31 +99,31 @@ const EndScore = ({ navigation, route }) => {
                     console.log("pressed submit");
                     console.log(game, selectedTeam, score);
 
-                    if (selectedEnd === null) {
-                        console.log("GOOD!!!!!!!!!!!!!!!!!!!!!!!!!11")
-                        if (selectedTeam === (undefined)) {
-                            alert("Select a team");
-                        }
-                        else if (score === "" || !score > 0) { alert("Trype score again") }
-                        else {
-                            addEnd(id, selectedTeam, score);
-                            setScore(0);
-                            setSelectedTeam();
-                        }
 
 
 
+                    if (selectedTeam === (undefined)) {
+                        alert("Select a team");
                     }
+                    else if (score === "" || !score > 0) { alert("Trype score again") }
                     else {
-                        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-                        removeEnd(id, selectedTeam, score, selectedEnd);
+
+                        if (selectedEnd === undefined) {
+
+                            console.log("Score ADD !!!!!!!!!!!!!!!!!!!!!!!!!")
+                            addEnd(id, selectedTeam, score);
+                        }
+                        else {
+                            console.log(selectedEnd);
+
+                            console.log("Score EDIT ============ !!!!!!!!!!!!!!!!!!!!!!!!!")
+                            editEnd(id, selectedTeam, score, selectedEnd);
+                            setSelectedEnd();
+                        }
                         setScore(0);
                         setSelectedTeam();
-                        setSelectedEnd();
-
-
                     }
+
 
 
 

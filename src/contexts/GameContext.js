@@ -34,9 +34,15 @@ export const GameProvider = ({ children }) => {
         if (callback) { callback(); }
 
     }
-    const removeScoreEnd = (id, teamIndex, score, index, callback) => {
-        dispatch({ type: "removeEnd", payload: { id, teamIndex, score, index } })
+    const editScoreEnd = (id, teamIndex, score, index, callback) => {
+        dispatch({ type: "editEnd", payload: { id, teamIndex, score, index } })
         if (callback) { callback(); }
+    }
+    const removeScoreEnd = (id, index, callback) => {
+        
+        dispatch({ type: "removeEnd", payload: { id, index } })
+        if (callback) { callback(); }
+
     }
 
 
@@ -48,6 +54,7 @@ export const GameProvider = ({ children }) => {
                 remove: deleteGame,
                 update: editGame,
                 addEnd: addScoreEnd,
+                editEnd: editScoreEnd,
                 removeEnd: removeScoreEnd
 
             }}>
@@ -82,8 +89,6 @@ const reducer = (state, action) => {
                     playerNames: action.payload.playerNames,
                     teamName: action.payload.teamName,
                     end: [
-                        { endScore: [2, 0], photos: ["photos printed"] },
-                        { endScore: [0, 1], photos: ["photos printed 2"] }
                     ]
                 }
 
@@ -118,14 +123,18 @@ const reducer = (state, action) => {
             ];
             console.log(state);
             return state;
-        case "removeEnd":
+        case "editEnd":
             score = [0, 0]
             score.splice(action.payload.teamIndex, 1, action.payload.score)
             console.log("the score is here" + score)
             console.log(action.payload)
             //console.log(state.find((game) => game.id === action.payload.id).end.splice(1,1,{endScore: [9,0], photos: ["photos printed 3"]}))
-            state.find((game) => game.id === action.payload.id).end.splice(action.payload.index,1, { endScore: score, photos:["photos printed 3"]})
-            
+            state.find((game) => game.id === action.payload.id).end.splice(action.payload.index, 1, { endScore: score, photos: ["photos printed 3"] })
+            return state;
+
+        case "removeEnd":
+            state.find((game) => game.id === action.payload.id).end.splice(action.payload.index, 1);
+            console.log("called remove")
             return state;
 
         //case action: return
