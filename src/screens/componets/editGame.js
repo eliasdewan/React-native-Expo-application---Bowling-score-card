@@ -1,5 +1,5 @@
 
-import { Text, TextInput, StyleSheet, View, Button, KeyboardAvoidingView } from "react-native";
+import { Text, TextInput, StyleSheet, View, Button, KeyboardAvoidingView ,ScrollView} from "react-native";
 import { useContext, useState } from "react";
 import GameContext from "../../contexts/GameContext";
 
@@ -17,20 +17,18 @@ const EditGame = ({ navigation, route }) => {
 
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior="position"
-        >
+        <ScrollView style={styles.container}>
+        
             <Text style={styles.text}>Game Name</Text>
             <TextInput style={styles.TextInput} placeholder="Game name" defaultValue={gameName} onChangeText={(text) => { setGameName(text); }} />
             <View style={styles.smallBoxContainer}>
                 <View style={styles.smallBox}>
                     <Text>Date: </Text>
-                    <TextInput style={styles.TextInput} placeholder={date} defaultValue={new Date().toDateString()} onChangeText={(text) => { setDate(text); }} />
+                    <TextInput style={styles.TextInput} placeholder={"date"} defaultValue={new Date().toDateString()} onChangeText={(text) => { setDate(text); }} />
                 </View>
                 <View style={styles.smallBox}>
                     <Text>Rink No.</Text>
-                    <TextInput style={styles.TextInput} placeholder={rink}  onChangeText={(text) => { setRink(text); }} />
+                    <TextInput style={styles.TextInput} placeholder="rink Number" defaultValue={rink.toString()} onChangeText={(text) => { setRink(text); }} />
                 </View>
             </View>
 
@@ -81,7 +79,8 @@ const EditGame = ({ navigation, route }) => {
                 update(game.id, gameName, date, rink, playerNames, teamName, game.end, () => navigation.pop());
                 //create(gameName, date, rink, numberOfPlayers, setTeamName, () => navigation.pop());
             }} />
-        </KeyboardAvoidingView>
+        
+        </ScrollView>
     )
 }
 export default EditGame;

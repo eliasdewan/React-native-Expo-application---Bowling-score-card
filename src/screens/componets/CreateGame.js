@@ -1,5 +1,5 @@
 
-import { Text, TextInput, StyleSheet, View, Button, KeyboardAvoidingView } from "react-native";
+import { Text, TextInput, StyleSheet, View, Button, ScrollView } from "react-native";
 import { useContext, useState } from "react";
 import GameContext from "../../contexts/GameContext";
 
@@ -13,10 +13,7 @@ const CreateGame = ({ navigation }) => {
      const { create } = useContext(GameContext);
 
      return (
-          <KeyboardAvoidingView
-               style={styles.container}
-               behavior="position"
-          >
+          <ScrollView style={styles.container}>
                <Text style={styles.text}>Game Name</Text>
                <TextInput style={styles.TextInput} placeholder="Game name" defaultValue="Casual Lawn bowling" onChangeText={(text) => { setGameName(text); }} />
                <View style={styles.smallBoxContainer}>
@@ -80,7 +77,7 @@ const CreateGame = ({ navigation }) => {
 
 
                }} />
-          </KeyboardAvoidingView >
+          </ScrollView >
      )
 }
 export default CreateGame;
