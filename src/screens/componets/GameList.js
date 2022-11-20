@@ -31,6 +31,8 @@ const GameList = ({ navigation }) => {
                 data={state}
                 keyExtractor={(game) => game.id.toString()}
                 renderItem={({ item }) => {
+                    console.log("Flat list ==>");
+                    console.log(item);
 
 
                     return (
@@ -40,7 +42,7 @@ const GameList = ({ navigation }) => {
                                 <View stle={styles.listItem}>
                                     <Text> {item.gameName}</Text>
                                     <Text>{item.date}</Text>
-                                    <Text>Players :{item.numberOfPlayers}</Text>
+                                    <Text>Players :{item.playerNames.toString()}</Text>
                                     <Text>Rink number: {item.rink}</Text>
                                     <Text>Teams :{item.teamName}</Text>
                                 </View>

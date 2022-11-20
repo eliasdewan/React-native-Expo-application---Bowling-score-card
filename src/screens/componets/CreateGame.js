@@ -48,25 +48,25 @@ const CreateGame = ({ navigation }) => {
                <View style={styles.smallBoxContainer}>
 
                     <View style={styles.smallBox}>
-                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[0]} onChangeText={(text) => { teamName.splice(0, 1, text); console.log("teamname:" + teamName) }} />
+                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue="T1P1" onChangeText={(text) => { playerNames.splice(0, 1, text); }} />
                     </View>
                     <View style={styles.smallBox}>
                          <Text style={styles.text}>1</Text>
                     </View>
                     <View style={styles.smallBox}>
-                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[1]} onChangeText={(text) => { teamName.splice(1, 1, text); }} />
+                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue="T2P1" onChangeText={(text) => { playerNames.splice(1, 1, text); }} />
                     </View>
                </View>
                <View style={styles.smallBoxContainer}>
                     <View style={styles.smallBox}>
-                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[2]} onChangeText={(text) => { teamName.splice(2, 1, text); }} />
+                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue="T1P2" onChangeText={(text) => { playerNames.splice(2, 1, text); }} />
                     </View>
 
                     <View style={styles.smallBox}>
                          <Text style={styles.text}>2</Text>
                     </View>
                     <View style={styles.smallBox}>
-                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[3]} onChangeText={(text) => { teamName.splice(3, 1, text) }} />
+                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue="T2P2" onChangeText={(text) => { playerNames.splice(3, 1, text); }} />
                     </View>
                </View>
 

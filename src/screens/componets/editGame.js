@@ -1,5 +1,5 @@
 
-import { Text, TextInput, StyleSheet, View, Button, KeyboardAvoidingView ,ScrollView} from "react-native";
+import { Text, TextInput, StyleSheet, View, Button, KeyboardAvoidingView, ScrollView } from "react-native";
 import { useContext, useState } from "react";
 import GameContext from "../../contexts/GameContext";
 
@@ -14,11 +14,12 @@ const EditGame = ({ navigation, route }) => {
     const [playerNames, setPlayerNames] = useState(game.playerNames);
     const [teamName, setTeamName] = useState(game.teamName);
     console.log("use staes now :", gameName, date, rink, playerNames, teamName)
+    console.log(playerNames);
 
 
     return (
         <ScrollView style={styles.container}>
-        
+
             <Text style={styles.text}>Game Name</Text>
             <TextInput style={styles.TextInput} placeholder="Game name" defaultValue={gameName} onChangeText={(text) => { setGameName(text); }} />
             <View style={styles.smallBoxContainer}>
@@ -53,25 +54,25 @@ const EditGame = ({ navigation, route }) => {
             <View style={styles.smallBoxContainer}>
 
                 <View style={styles.smallBox}>
-                    <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[0]} onChangeText={(text) => { teamName.splice(0, 1, text); console.log("teamname:" + teamName) }} />
+                    <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[0]} onChangeText={(text) => { playerNames.splice(0, 1, text); }} />
                 </View>
                 <View style={styles.smallBox}>
                     <Text style={styles.text}>1</Text>
                 </View>
                 <View style={styles.smallBox}>
-                    <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[1]} onChangeText={(text) => { teamName.splice(1, 1, text); }} />
+                    <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[1]} onChangeText={(text) => { playerNames.splice(1, 1, text); }} />
                 </View>
             </View>
             <View style={styles.smallBoxContainer}>
                 <View style={styles.smallBox}>
-                    <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[2]} onChangeText={(text) => { teamName.splice(2, 1, text); }} />
+                    <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[2]} onChangeText={(text) => { playerNames.splice(2, 1, text); }} />
                 </View>
 
                 <View style={styles.smallBox}>
                     <Text style={styles.text}>2</Text>
                 </View>
                 <View style={styles.smallBox}>
-                    <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[3]} onChangeText={(text) => { teamName.splice(3, 1, text) }} />
+                    <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[3]} onChangeText={(text) => { playerNames.splice(3, 1, text); }} />
                 </View>
             </View>
 
@@ -79,7 +80,7 @@ const EditGame = ({ navigation, route }) => {
                 update(game.id, gameName, date, rink, playerNames, teamName, game.end, () => navigation.pop());
                 //create(gameName, date, rink, numberOfPlayers, setTeamName, () => navigation.pop());
             }} />
-        
+
         </ScrollView>
     )
 }

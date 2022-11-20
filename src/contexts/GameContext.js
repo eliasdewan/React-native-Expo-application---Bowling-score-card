@@ -90,6 +90,7 @@ const reducer = (state, action) => {
         case "edit":
             console.log("Edit");
             console.log(action);
+            console.log(state);
             return state.map((game) => {
                 if (game.id === action.payload.id) {
                     return action.payload;
