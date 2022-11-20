@@ -17,9 +17,9 @@ const Stack = createNativeStackNavigator();
 
 
 function GameListNav({ navigation }) {
+  // THIS PART GIVES WARNING
   const { state } = useContext(GameContext);
-
-  navigation.setOptions({ tabBarBadge : state.length > 0 ? state.length :null })
+  navigation.setOptions({ tabBarBadge: state.length > 0 ? state.length : null })
 
   return (
     <Stack.Navigator initialRouteName='ListView'>
@@ -64,7 +64,7 @@ const App = () => {
 
             options={{
               title: "Game window",
-              headerShown:false,
+              headerShown: false,
               tabBarLabel: " List of Games",
               tabBarIcon: () => (<Ionicons name="list" size={24} color="black" />)
             }}
