@@ -7,10 +7,10 @@ let gmaList = [];
 export const GameProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, gmaList);
 
-    const addGame = (gameName, date, rink, numberOfPlayers, teamName, callback) => {
-        console.log("Add game Received = ", gameName, date, rink, numberOfPlayers, teamName, callback);
-        dispatch({ type: "create", payload: { gameName, date, rink, numberOfPlayers, teamName } });
-        //dispatch({ type: actionTypes.create, payload: { gameName, date, rink, numberOfPlayers, setTeamName } });
+    const addGame = (gameName, date, rink, playerNames, teamName, callback) => {
+        console.log("Add game Received = ", gameName, date, rink, playerNames, teamName, callback);
+        dispatch({ type: "create", payload: { gameName, date, rink, playerNames, teamName } });
+        //dispatch({ type: actionTypes.create, payload: { gameName, date, rink, playerNames, setTeamName } });
         //dispatch({ type: actionTypes.save });
         if (callback) { callback(); }
     }
@@ -21,11 +21,11 @@ export const GameProvider = ({ children }) => {
         if (callback) callback();
     }
 
-    const editGame = (id, gameName, date, rink, numberOfPlayers, teamName, end, callback) => {
+    const editGame = (id, gameName, date, rink, playerNames, teamName, end, callback) => {
         console.log("In editing context");
-        console.log(gameName, date, rink, numberOfPlayers, teamName, callback);
+        console.log(gameName, date, rink, playerNames, teamName, callback);
 
-        dispatch({ type: "edit", payload: { id, gameName, date, rink, numberOfPlayers, teamName, end } })
+        dispatch({ type: "edit", payload: { id, gameName, date, rink, playerNames, teamName, end } })
         if (callback) { callback(); }
     }
     const addScoreEnd = (id, teamIndex, score, callback) => {
@@ -69,12 +69,12 @@ const reducer = (state, action) => {
             return [
                 ...state,
                 {
-                    //gameName, date, rink, numberOfPlayers, setTeamName,
+                    //gameName, date, rink, playerNames, setTeamName,
                     id: Math.floor(Math.random() * 99999),
                     gameName: action.payload.gameName,
                     date: action.payload.date,
                     rink: action.payload.rink,
-                    numberOfPlayers: action.payload.numberOfPlayers,
+                    playerNames: action.payload.playerNames,
                     teamName: action.payload.teamName,
                     end: [
                         { endScore: [2, 0], photos: ["photos printed"] },
@@ -101,8 +101,8 @@ const reducer = (state, action) => {
 
             console.log("printing payload");
             console.log(action);
-            console.log(">>>>>" );
-            const score = [0,0]
+            console.log(">>>>>");
+            const score = [0, 0]
             score.splice(action.payload.teamIndex, 1, action.payload.score)
             console.log(score);
 

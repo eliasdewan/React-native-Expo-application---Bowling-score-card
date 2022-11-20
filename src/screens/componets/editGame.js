@@ -1,5 +1,5 @@
 
-import { Text, TextInput, StyleSheet, View, Button } from "react-native";
+import { Text, TextInput, StyleSheet, View, Button, KeyboardAvoidingView } from "react-native";
 import { useContext, useState } from "react";
 import GameContext from "../../contexts/GameContext";
 
@@ -11,57 +11,108 @@ const EditGame = ({ navigation, route }) => {
     const [gameName, setGameName] = useState(game.gameName)
     const [date, setDate] = useState(game.date);
     const [rink, setRink] = useState(game.rink);
-    const [numberOfPlayers, setNumberOfPlayers] = useState(game.numberOfPlayers);
+    const [playerNames, setPlayerNames] = useState(game.playerNames);
     const [teamName, setTeamName] = useState(game.teamName);
-    console.log("use staes now :", gameName, date, rink, numberOfPlayers, teamName)
+    console.log("use staes now :", gameName, date, rink, playerNames, teamName)
 
 
     return (
-        <View>
-            <Text>Customize game name:</Text>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior="position"
+        >
+            <Text style={styles.text}>Game Name</Text>
             <TextInput style={styles.TextInput} placeholder="Game name" defaultValue={gameName} onChangeText={(text) => { setGameName(text); }} />
-            <Text>Customize game date: </Text>
-            <TextInput style={styles.TextInput} placeholder="Enter date" defaultValue={date} onChangeText={(text) => { setDate(text); }} />
-            <Text>Rink number:</Text>
-            <TextInput style={styles.TextInput} placeholder="Rink Number" defaultValue={rink.toString()} onChangeText={(text) => { setRink(text); }} />
-            <Text>Select number of payers (2-4):</Text>
-            <TextInput style={styles.TextInput} placeholder="Number of Players" defaultValue={numberOfPlayers.toString()} onChangeText={(text) => { setNumberOfPlayers(text); }} />
-            <Text>Customize first team name:</Text>
-            <TextInput style={styles.TextInput} placeholder="First team name" defaultValue={teamName[0]} onChangeText={(text) => { setTeamName(list => [text, ...teamName.slice(1)]); }} />
-            <Text>Customize second team name</Text>
-            <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue={teamName[1]} onChangeText={(text) => { setTeamName(list => [...teamName.slice(0, 1), text]); }} />
+            <View style={styles.smallBoxContainer}>
+                <View style={styles.smallBox}>
+                    <Text>Date: </Text>
+                    <TextInput style={styles.TextInput} placeholder={date} defaultValue={new Date().toDateString()} onChangeText={(text) => { setDate(text); }} />
+                </View>
+                <View style={styles.smallBox}>
+                    <Text>Rink No.</Text>
+                    <TextInput style={styles.TextInput} placeholder={rink}  onChangeText={(text) => { setRink(text); }} />
+                </View>
+            </View>
+
+            <Text style={styles.text}>Teams</Text>
+            <View style={styles.smallBoxContainer}>
+
+                <View style={styles.smallBox}>
+                    <Text>First team name:</Text>
+                    <TextInput style={styles.TextInput} placeholder="First team name" defaultValue={teamName[0]} onChangeText={(text) => { setTeamName(teamName => [text, ...teamName.slice(1)]); }} />
+                </View>
+
+                <View style={styles.smallBox}>
+                    <Text style={styles.text}>VS</Text>
+                </View>
+
+                <View style={styles.smallBox}>
+                    <Text>Second team name</Text>
+                    <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue={teamName[1]} onChangeText={(text) => { setTeamName(teamName => [...teamName.slice(0, 1), text]); }} />
+                </View>
+            </View>
+            <Text style={styles.text}>Players</Text>
+            <View style={styles.smallBoxContainer}>
+
+                <View style={styles.smallBox}>
+                    <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[0]} onChangeText={(text) => { teamName.splice(0, 1, text); console.log("teamname:" + teamName) }} />
+                </View>
+                <View style={styles.smallBox}>
+                    <Text style={styles.text}>1</Text>
+                </View>
+                <View style={styles.smallBox}>
+                    <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[1]} onChangeText={(text) => { teamName.splice(1, 1, text); }} />
+                </View>
+            </View>
+            <View style={styles.smallBoxContainer}>
+                <View style={styles.smallBox}>
+                    <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[2]} onChangeText={(text) => { teamName.splice(2, 1, text); }} />
+                </View>
+
+                <View style={styles.smallBox}>
+                    <Text style={styles.text}>2</Text>
+                </View>
+                <View style={styles.smallBox}>
+                    <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[3]} onChangeText={(text) => { teamName.splice(3, 1, text) }} />
+                </View>
+            </View>
 
             <Button title="Accept" onPress={() => {
-                update(game.id, gameName, date, rink, numberOfPlayers, teamName, game.end, () => navigation.pop());
+                update(game.id, gameName, date, rink, playerNames, teamName, game.end, () => navigation.pop());
                 //create(gameName, date, rink, numberOfPlayers, setTeamName, () => navigation.pop());
             }} />
-        </View>
+        </KeyboardAvoidingView>
     )
 }
 export default EditGame;
 
-function Addnav({ navigation }) {
-    return (
-
-        <Stack.Navigator>
-            <Stack.Screen name="Add" codamponent={Add} />
-            <Stack.Screen name="Create" component={EditGame} />
-
-        </Stack.Navigator>
-
-    );
-}
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignContent: "stretch"
     },
     TextInput: {
         padding: 10,
         borderWidth: 5,
-        margin: 2,
+    },
+    smallBoxContainer: {
+        flexDirection: "row",
+        alignSelf: "stretch",
+        justifyContent: "space-between",
+
+    },
+    smallBox: {
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center"
+
+
+    },
+    text: {
+        textAlign: "center",
+        fontSize: 20,
+        paddingTop: 5
     }
 });

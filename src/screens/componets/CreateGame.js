@@ -8,7 +8,7 @@ const CreateGame = ({ navigation }) => {
      const [gameName, setGameName] = useState("Casual Lawn bowling");
      const [date, setDate] = useState(new Date().toDateString());
      const [rink, setRink] = useState(1);
-     const [playerNames, setPlayerNames] = useState(["will", "not do", "it again", "maybe"]);
+     const [playerNames, setPlayerNames] = useState(["T1P1", "T2P1", "T1P2", "T2P2"]);
      const [teamName, setTeamName] = useState(["Team 1 ", "Team 2"]);
      const { create } = useContext(GameContext);
 
@@ -28,11 +28,6 @@ const CreateGame = ({ navigation }) => {
                          <Text>Rink No.</Text>
                          <TextInput style={styles.TextInput} placeholder="Rink Number" defaultValue="1" onChangeText={(text) => { setRink(text); }} />
                     </View>
-
-               </View>
-               <View style={styles.smallBox}>
-                    <Text>Number of payers (2-4):</Text>
-                    <TextInput style={styles.TextInput} placeholder="Number of Players" defaultValue="2" onChangeText={(text) => { }} />
                </View>
 
                <Text style={styles.text}>Teams</Text>
@@ -47,7 +42,6 @@ const CreateGame = ({ navigation }) => {
                          <Text style={styles.text}>VS</Text>
                     </View>
 
-
                     <View style={styles.smallBox}>
                          <Text>Second team name</Text>
                          <TextInput style={styles.TextInput} placeholder="Second team name" defaultValue="Team 2" onChangeText={(text) => { setTeamName(teamName => [...teamName.slice(0, 1), text]); }} />
@@ -55,30 +49,27 @@ const CreateGame = ({ navigation }) => {
                </View>
                <Text style={styles.text}>Players</Text>
                <View style={styles.smallBoxContainer}>
-                    <View style={styles.smallBox}>
 
-                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue="JH" onChangeText={(text) => { teamName.splice(0, 1, text); console.log("teamname:" + teamName) }} />
+                    <View style={styles.smallBox}>
+                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[0]} onChangeText={(text) => { teamName.splice(0, 1, text); console.log("teamname:" + teamName) }} />
                     </View>
                     <View style={styles.smallBox}>
                          <Text style={styles.text}>1</Text>
                     </View>
                     <View style={styles.smallBox}>
-
-                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue="LO" onChangeText={(text) => { teamName.splice(1, 1, text); }} />
+                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[1]} onChangeText={(text) => { teamName.splice(1, 1, text); }} />
                     </View>
                </View>
                <View style={styles.smallBoxContainer}>
-
                     <View style={styles.smallBox}>
-                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue="JH" onChangeText={(text) => { teamName.splice(2, 1, text); }} />
+                         <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[2]} onChangeText={(text) => { teamName.splice(2, 1, text); }} />
                     </View>
 
                     <View style={styles.smallBox}>
                          <Text style={styles.text}>2</Text>
                     </View>
                     <View style={styles.smallBox}>
-
-                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue="LO" onChangeText={(text) => { teamName.splice(3, 1, text) }} />
+                         <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[3]} onChangeText={(text) => { teamName.splice(3, 1, text) }} />
                     </View>
                </View>
 
@@ -110,9 +101,7 @@ const styles = StyleSheet.create({
      container: {
           flex: 1,
           backgroundColor: '#fff',
-          //alignItems: "stretch",
           alignContent: "stretch"
-          //justifyContent: 'flex-start',
      },
      TextInput: {
           padding: 10,
