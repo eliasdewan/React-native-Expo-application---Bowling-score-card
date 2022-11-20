@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, Pressable } from 'react-native';
 import { NavigationContainer, TabActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import CreateGame from './src/screens/componets/CreateGame';
 import GameList from './src/screens/componets/GameList';
@@ -17,9 +17,9 @@ const Stack = createNativeStackNavigator();
 
 
 function GameListNav({ navigation }) {
-  // THIS PART GIVES WARNING
   const { state } = useContext(GameContext);
-  navigation.setOptions({ tabBarBadge: state.length > 0 ? state.length : null })
+  useEffect(() => { navigation.setOptions({ tabBarBadge: state.length > 0 ? state.length : null }) }, [state])
+
 
   return (
     <Stack.Navigator initialRouteName='ListView'>
