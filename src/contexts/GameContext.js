@@ -34,6 +34,10 @@ export const GameProvider = ({ children }) => {
         if (callback) { callback(); }
 
     }
+    const removeScoreEnd = (id, teamIndex, score, index, callback) => {
+        dispatch({ type: "removeEnd", payload: { id, teamIndex, score, index } })
+        if (callback) { callback(); }
+    }
 
 
     return (
@@ -43,7 +47,8 @@ export const GameProvider = ({ children }) => {
                 create: addGame,
                 remove: deleteGame,
                 update: editGame,
-                addEnd: addScoreEnd
+                addEnd: addScoreEnd,
+                removeEnd: removeScoreEnd
 
             }}>
             {children}
@@ -103,7 +108,7 @@ const reducer = (state, action) => {
             console.log("printing payload");
             console.log(action);
             console.log(">>>>>");
-            const score = [0, 0]
+            let score = [0, 0]
             score.splice(action.payload.teamIndex, 1, action.payload.score)
             console.log(score);
 
@@ -113,7 +118,15 @@ const reducer = (state, action) => {
             ];
             console.log(state);
             return state;
-
+        case "removeEnd":
+            score = [0, 0]
+            score.splice(action.payload.teamIndex, 1, action.payload.score)
+            console.log("the score is here" + score)
+            console.log(action.payload)
+            //console.log(state.find((game) => game.id === action.payload.id).end.splice(1,1,{endScore: [9,0], photos: ["photos printed 3"]}))
+            state.find((game) => game.id === action.payload.id).end.splice(action.payload.index,1, { endScore: score, photos:["photos printed 3"]})
+            
+            return state;
 
         //case action: return
 

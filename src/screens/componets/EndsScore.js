@@ -1,15 +1,17 @@
-import { View, Text, TextInput, StyleSheet, FlatList, Pressable, Button, KeyboardAvoidingView } from "react-native"
+import { View, Text, TextInput, StyleSheet, FlatList, Pressable, Button } from "react-native"
 import { useContext, useState, useEffect } from "react"
 import { ReactDOM } from "react"
+import { MaterialIcons } from '@expo/vector-icons';
 import GameContext from "../../contexts/GameContext"
 
 const EndScore = ({ navigation, route }) => {
-    const { state, addEnd } = useContext(GameContext);
+    const { state, addEnd, removeEnd } = useContext(GameContext);
     const { id } = route.params;
 
     let game = state.find((game) => game.id === id);
     const [selectedTeam, setSelectedTeam] = useState(); // implement statr
     const [score, setScore] = useState(0);
+    const [selectedEnd, setSelectedEnd] = useState(null);
     console.log(game);
     console.log(game.end[0].endScore);
     console.log("Experiment");
@@ -20,35 +22,52 @@ const EndScore = ({ navigation, route }) => {
     return (
         <View style={styles.scoreBoxContainer}>
             <Text>{game.gameName}</Text>
+            <Text>{selectedEnd}</Text>
             <Text style={styles.scoreText}> Total        ||   Ends   ||       Total</Text>
             <FlatList
 
                 data={game.end}
                 renderItem={({ item, index }) => {
                     return (
-                        <KeyboardAvoidingView
-                            behavior="padding"
-                        >
-                            <View style={styles.scoreBox}>
-
-                                <Text style={styles.scoreText}> {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[0], 0)}     </Text>
-                                <Text style={styles.scoreText}>{item.endScore[0]}   |   end {index}   |   {item.endScore[1]}</Text>
-                                <Text style={styles.scoreText}>     {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
+                        <View>
+                            <Pressable onPress={() => {
+                                if (selectedEnd === index) {
+                                    setSelectedEnd(null);
+                                    setSelectedTeam();
+                                    setScore(0);
+                                }
+                                else {
+                                    console.log(index);
+                                    setSelectedEnd(index);
+                                    setScore(item.endScore.find(e => e > 0));
+                                    setSelectedTeam(item.endScore[0] > item.endScore[1] ? 0 : 1)
+                                }
+                            }}>{/* for editing end scores , higlights the team and  */}
+                                <View style={[styles.scoreBox, selectedEnd === index ? { backgroundColor: "red" } : {}]}>
+                                    <Text style={styles.scoreText}> {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[0], 0)}     </Text>
+                                    <Text style={styles.scoreText}>{item.endScore[0]}   |   end {index}   |   {item.endScore[1]}</Text>
+                                    <Text style={styles.scoreText}>     {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
+                                </View>
+                            </Pressable>
+                            <View style={{ display: selectedEnd === index ? "flex" : "none" }}>
+                                <Text> This is hidden</Text>
+                                <MaterialIcons name="delete" size={50} color="black" />
                             </View>
-                        </KeyboardAvoidingView>
+                        </View>
+
 
                     )
                 }}
 
             />
+            { /*    Score total displayer*/}
             <View style={styles.scoreBox}>
-
                 <Text style={styles.scoreText}> Total {game.end.reduce((partSum, score) => partSum + score.endScore[0], 0)}</Text>
                 <Text style={styles.scoreText}> || Total {game.end.reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
             </View>
             <Text style={styles.scoreBox}>Select a scoring team , enter score , press end on keyboard</Text>
             <View style={styles.optionBoxContainer} >
-
+                { /*    Team selector boxes */}
                 <Text
                     onPress={() => { setSelectedTeam(0) }}
                     style={[styles.optionBox, { backgroundColor: selectedTeam === 0 ? 'green' : 'white' }]}>
@@ -60,7 +79,8 @@ const EndScore = ({ navigation, route }) => {
                     {game.teamName[1]}
                 </Text>
             </View>
-                
+
+            { /*    Score input boxes   */}
             <TextInput
                 keyboardType="number-pad"
                 autoFocus={true}
@@ -72,16 +92,34 @@ const EndScore = ({ navigation, route }) => {
                     console.log("pressed submit");
                     console.log(game, selectedTeam, score);
 
-                    if (selectedTeam === (undefined)) {
-                        alert("Select a team");
+                    if (selectedEnd === null) {
+                        console.log("GOOD!!!!!!!!!!!!!!!!!!!!!!!!!11")
+                        if (selectedTeam === (undefined)) {
+                            alert("Select a team");
+                        }
+                        else if (score === "" || !score > 0) { alert("Trype score again") }
+                        else {
+                            addEnd(id, selectedTeam, score);
+                            setScore(0);
+                            setSelectedTeam();
+                        }
+
+
+
                     }
-                    else if (score === "" || !score > 0) { alert("Trype score again") }
                     else {
-                        addEnd(id, selectedTeam, score);
+                        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                        console.log("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                        removeEnd(id, selectedTeam, score, selectedEnd);
                         setScore(0);
                         setSelectedTeam();
+                        setSelectedEnd();
+
+
                     }
-                    //
+
+
+
 
 
                 }}
@@ -99,7 +137,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     TextInput: {
         padding: 10,
