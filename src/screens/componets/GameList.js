@@ -16,7 +16,7 @@ const GameList = ({ navigation }) => {
                     <Text style={styles.goBack}> Yo dont have any game </Text>
                     <Pressable onPress={() => navigation.navigate('Add')}>
                         <Text style={styles.goBack}>
-                            GO BACK HOME
+                            CREATE A GAME (+)
                         </Text>
                     </Pressable>
                 </View>
