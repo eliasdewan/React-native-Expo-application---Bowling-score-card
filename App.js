@@ -17,7 +17,7 @@ const Stack = createNativeStackNavigator();
 
 function GameListNav({ navigation }) {
   const { state } = useContext(GameContext);
-  useEffect(() => { navigation.setOptions({ tabBarBadge: state.length > 0 ? state.length : null }) }, [state])
+  //useEffect(() => { navigation.setOptions({ tabBarBadge: state.length > 0 ? state.length : null }) }, [state])
   return (
     <Stack.Navigator initialRouteName='ListView'>
       <Stack.Screen name="ListView" component={GameList} options={{ title: "Game Screen" }} />
