@@ -18,18 +18,29 @@ const EndScore = ({ navigation, route }) => {
     console.log(game.end.map((end, index) => end.endScore + ">" + index));
     console.log(game.end)
     //const end = game.end.map((end) => )
-    navigation.setOptions({
-        headerRight: () => (
-            <Pressable onPress={() => alert("To edit select a line")}>
-                <MaterialIcons name="edit" size={40} color="red" />
-            </Pressable >
-        )
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <Pressable onPress={() => alert(
+                    ">To EDIT/DELETE select an End line\n" +
+                    "   While red selected \n" +
+                    "   Select a team \n" +
+                    "   Enter new score or keep the same \n" +
+                    "   Press send from keyborad \n\n" +
+                    ">To DELETE press the trash on the right while higlited\n\n" +
+                    ">To CANCEL select the RED selected End\n\n"
+
+                )}>
+                    <MaterialIcons name="edit" size={40} color="red" />
+                </Pressable >
+            )
+        })
     })
 
     return (
         <View style={styles.scoreBoxContainer}>
             <Text>{game.gameName}</Text>
-            <Text>{selectedEnd}</Text>
+            {/*<Text>{selectedEnd}</Text>*/}
             <Text style={styles.scoreText}> Total        ||   Ends   ||       Total</Text>
             <FlatList
 
