@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, Pressable } from 'react-native'
-import { Camera } from 'expo-camera'
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { Camera } from 'expo-camera';
 
-const { status } = await Camera.requestCameraPermissionsAsync()
+const { status } = await Camera.requestCameraPermissionsAsync();
 
 const CameraScreen = ({ navigation }) => {
     const [permission, setPermission] = useState();
@@ -28,14 +28,14 @@ const CameraScreen = ({ navigation }) => {
         if (camera) {
             const photo = await camera.takePictureAsync();
             console.log(photo);
-            navigation.navigate('PhotoScreen', { uri: photo.uri })
+            navigation.navigate('PhotoScreen', { uri: photo.uri });
         }
     }
 
     return (
         <View style={styles.container}>
             <Camera style={styles.subContainer}>
-                <Pressable style={styles.buttonStyle}> onPress={() => { getPicture() }}</Pressable>
+                <Pressable style={styles.buttonStyle}> onPress={() => { getPicture(); }}</Pressable>
                 <Text style={styles.textStyle}> Touch to take Picture</Text>
             </Camera>
         </View>
