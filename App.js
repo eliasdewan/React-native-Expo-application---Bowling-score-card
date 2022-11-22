@@ -9,6 +9,8 @@ import GameList from './src/screens/componets/GameList';
 import IndexScreen from './src/screens/componets/Indexscreen';
 import EditGame from './src/screens/componets/EditGame';
 import EndScore from './src/screens/componets/EndsScore';
+//import CameraScreen from './src/screens/CameraScreen';
+import PhotoScreen from './src/screens/PhotoScreen';
 import GameContext, { GameProvider } from './src/contexts/GameContext';
 const Tab = createBottomTabNavigator();
 
@@ -23,6 +25,8 @@ function GameListNav({ navigation }) {
       <Stack.Screen name="ListView" component={GameList} options={{ title: "Game Screen" }} />
       <Stack.Screen name="EditGame" component={EditGame} />
       <Stack.Screen name="EndScore" component={EndScore} />
+      {/*  <Stack.Screen name="CameraScreen" component={CameraScreen} />*/}
+      <Stack.Screen name="PhotoScreen" component={PhotoScreen} />
     </Stack.Navigator>)
 
 }

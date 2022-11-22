@@ -22,7 +22,8 @@
     "react-native-screens": "~3.15.0",
     "react-native-uuid": "^2.0.1",
     "react-uuid": "^2.0.0",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "expo-camera": "~12.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
