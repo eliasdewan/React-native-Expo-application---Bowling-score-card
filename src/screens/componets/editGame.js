@@ -75,6 +75,31 @@ const EditGame = ({ navigation, route }) => {
                     <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[3]} onChangeText={(text) => { playerNames.splice(3, 1, text); }} />
                 </View>
             </View>
+            <View style={styles.smallBoxContainer}>
+
+                <View style={styles.smallBox}>
+                    <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[4]} onChangeText={(text) => { playerNames.splice(4, 1, text); }} />
+                </View>
+                <View style={styles.smallBox}>
+                    <Text style={styles.text}>3</Text>
+                </View>
+                <View style={styles.smallBox}>
+                    <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[5]} onChangeText={(text) => { playerNames.splice(5, 1, text); }} />
+                </View>
+            </View>
+            <View style={styles.smallBoxContainer}>
+                <View style={styles.smallBox}>
+                    <TextInput style={styles.TextInput} placeholder="First team player" defaultValue={playerNames[6]} onChangeText={(text) => { playerNames.splice(6, 1, text); }} />
+                </View>
+
+                <View style={styles.smallBox}>
+                    <Text style={styles.text}>4</Text>
+                </View>
+                <View style={styles.smallBox}>
+                    <TextInput style={styles.TextInput} placeholder="Secon team player" defaultValue={playerNames[7]} onChangeText={(text) => { playerNames.splice(7, 1, text); }} />
+                </View>
+            </View>
+            
 
             <Button title="Accept" onPress={() => {
                 update(game.id, gameName, date, rink, playerNames, teamName, game.end, () => navigation.pop());
