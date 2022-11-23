@@ -33,7 +33,13 @@ const EndScore = ({ navigation, route }) => {
                     "   Enter new score or keep the same \n" +
                     "   Press send from keyborad \n\n" +
                     ">To DELETE press the trash on the right while higlited\n\n" +
-                    ">To CANCEL select the RED selected End\n\n"
+                    ">To CANCEL select the RED selected End\n\n"+
+
+                    ">IMAGE LOADS - TO add first take picture then select team and type score\n\n"+
+                    ">ADD IMAGE to previous end - first take picture then select end and send\n\n"+
+                    ">Remove image from end - select end and then select remove image icon, then send from keyboard\n\n"+
+                    ">To update image first remove then add new one\n\n"+
+                    ">Use image from ther end - select the end with picture then press agiin to delselect, IMAGE will be loaded\n\n"
 
                 )}>
                     <MaterialIcons name="edit" size={40} color="red" />
@@ -98,6 +104,7 @@ const EndScore = ({ navigation, route }) => {
                                     setSelectedEnd(index);
                                     setScore(item.endScore.find(e => e > 0));
                                     setSelectedTeam(item.endScore[0] > item.endScore[1] ? 0 : 1);
+
                                     if (item.photos != "NONE") { setUri(item.photos) }
                                 }
                             }}>{/* for editing end scores , higlights the team and  */}
