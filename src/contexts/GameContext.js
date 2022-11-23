@@ -1,5 +1,5 @@
 import { useState } from "react";
-import React, { useReducer ,useEffect} from "react";
+import React, { useReducer, useEffect } from "react";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const STORAGE_KEY = "my_super_secret_key";
@@ -45,15 +45,17 @@ export const GameProvider = ({ children }) => {
         dispatch({ type: "save" });
         if (callback) { callback(); }
     }
-    const addScoreEnd = (id, teamIndex, score, callback) => {
+    const addScoreEnd = (id, teamIndex, score, uri, callback) => {
         console.log({ type: "addScore", payload: { id, teamIndex, score } });
-        dispatch({ type: "addScore", payload: { id, teamIndex, score } })
+        dispatch({ type: "addScore", payload: { id, teamIndex, score, uri } })
         dispatch({ type: "save" });
         if (callback) { callback(); }
 
     }
-    const editScoreEnd = (id, teamIndex, score, index, callback) => {
-        dispatch({ type: "editEnd", payload: { id, teamIndex, score, index } })
+    const editScoreEnd = (id, teamIndex, score, index,  uri, callback) => {
+        console.log("IN EDIT END")
+        console.log(id, teamIndex, score, index, uri, callback)
+        dispatch({ type: "editEnd", payload: { id, teamIndex, score, index,  uri } })
         dispatch({ type: "save" });
         if (callback) { callback(); }
     }
@@ -160,7 +162,7 @@ const reducer = (state, action) => {
 
             state.find((game) => game.id === action.payload.id).end = [
                 ...state.find((game) => game.id === action.payload.id).end,
-                { endScore: score, photos: ["photos printed 3"] }
+                { endScore: score, photos: action.payload.uri }
             ];
             console.log(state);
             return state;
@@ -170,7 +172,7 @@ const reducer = (state, action) => {
             console.log("the score is here" + score)
             console.log(action.payload)
             //console.log(state.find((game) => game.id === action.payload.id).end.splice(1,1,{endScore: [9,0], photos: ["photos printed 3"]}))
-            state.find((game) => game.id === action.payload.id).end.splice(action.payload.index, 1, { endScore: score, photos: ["photos printed 3"] })
+            state.find((game) => game.id === action.payload.id).end.splice(action.payload.index, 1, { endScore: score, photos: action.payload.uri })
             return state;
 
         case "removeEnd":

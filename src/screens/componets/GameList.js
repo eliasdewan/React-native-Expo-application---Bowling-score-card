@@ -37,7 +37,7 @@ const GameList = ({ navigation }) => {
 
                     return (
                         // <Pressable onPress={() => navigation.navigate("EditGame", { id: item.id })}>
-                        <Pressable onPress={() => navigation.navigate("EndScore", { id: item.id })}>
+                        <Pressable onPress={() => navigation.navigate("EndScore", { id: item.id, uri:"NONE" })}>
                             <View style={styles.container} >
                                 <View stle={styles.listItem}>
                                     <Text> {item.gameName}</Text>

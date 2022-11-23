@@ -1,4 +1,4 @@
-import { View, Text, TextInput, StyleSheet, FlatList, Pressable, Button } from "react-native"
+import { View, Text, TextInput, StyleSheet, FlatList, Pressable, Image } from "react-native"
 import { useContext, useState, useEffect } from "react"
 import { ReactDOM } from "react"
 import { MaterialIcons } from '@expo/vector-icons';
@@ -8,16 +8,21 @@ const EndScore = ({ navigation, route }) => {
     const { state, addEnd, editEnd, removeEnd } = useContext(GameContext);
     const { id } = route.params;
 
+    console.log("printing route : " + route.params)
+    console.log(route.params.uri);
+    console.log(route.params.id);
     let game = state.find((game) => game.id === id);
+    console.log("game" + game);
     const [selectedTeam, setSelectedTeam] = useState(); // implement statr
     const [score, setScore] = useState(0);
     const [selectedEnd, setSelectedEnd] = useState();
-    console.log(game);
-    console.log("Experiment");
+    const [uri, setUri] = useState(route.params.uri) // NEEEEEEEEEEE
+    if (route.params.uri === "NONE") { console.log("NO picture link") }
+    else { console.log("heres the uri =================") }
+    console.log(route.params.uri);
     console.log(selectedEnd);
-    console.log(game.end.map((end, index) => end.endScore + ">" + index));
-    console.log(game.end)
-    //const end = game.end.map((end) => )
+
+    {/* Information window how editing works*/ }
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => (
@@ -37,11 +42,45 @@ const EndScore = ({ navigation, route }) => {
         })
     })
 
+    const sendKeyboard = () => {
+        console.log("pressed submit");
+        console.log(game, selectedTeam, score);
+        if (selectedTeam === (undefined)) {
+            alert("Select a team");
+        }
+        else if (score === "" || !score > 0) { alert("Trype score again") }
+        else {
+            if (selectedEnd === undefined) {
+                console.log("Score ADD !!!!!!!!!!!!!!!!!!!!!!!!!")
+                addEnd(id, selectedTeam, score, uri);
+                setUri("NONE");
+            }
+            else {
+                console.log(selectedEnd);
+                console.log("Score EDIT ============ !!!!!!!!!!!!!!!!!!!!!!!!!")
+
+                console.log(id, selectedTeam, score, selectedEnd, uri);
+                editEnd(id, selectedTeam, score, selectedEnd, uri);
+                setSelectedEnd();
+                setUri("NONE");
+            }
+            setScore(0);
+            setSelectedTeam();
+        }
+    }
+
     return (
         <View style={styles.scoreBoxContainer}>
-            <Text>{game.gameName}</Text>
+            <Text style={styles.scoreText}>{game.gameName}</Text>
             {/*<Text>{selectedEnd}</Text>*/}
-            <Text style={styles.scoreText}> Total        ||   Ends   ||       Total</Text>
+
+            <View style={styles.scoreBox}>
+                <Text style={styles.scoreText}>Total</Text>
+                <Text style={styles.scoreText}>Score</Text>
+                <Text style={styles.scoreText}>Ends</Text>
+                <Text style={styles.scoreText}>Score</Text>
+                <Text style={styles.scoreText}>Total</Text>
+            </View>
             <FlatList
 
                 data={game.end}
@@ -58,19 +97,24 @@ const EndScore = ({ navigation, route }) => {
                                     console.log(index);
                                     setSelectedEnd(index);
                                     setScore(item.endScore.find(e => e > 0));
-                                    setSelectedTeam(item.endScore[0] > item.endScore[1] ? 0 : 1)
+                                    setSelectedTeam(item.endScore[0] > item.endScore[1] ? 0 : 1);
+                                    if (item.photos != "NONE") { setUri(item.photos) }
                                 }
                             }}>{/* for editing end scores , higlights the team and  */}
                                 <View style={[styles.scoreBox, selectedEnd === index ? { backgroundColor: "red" } : {}]}>
-                                    <Text style={styles.scoreText}> {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[0], 0)}     </Text>
-                                    <Text style={styles.scoreText}>{item.endScore[0]}   |   end {index}   |   {item.endScore[1]}</Text>
-                                    <Text style={styles.scoreText}>     {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
+                                    <Text style={styles.scoreText}> {game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[0], 0)}</Text>
+                                    <Text style={styles.scoreText}>{item.endScore[0]}</Text>
+                                    <Text style={styles.scoreText}>end {index}<MaterialIcons name="image" size={game.end[index].photos === "NONE" ? 0 : 18} color="black" /></Text>
+                                    <Text style={styles.scoreText}>{item.endScore[1]}</Text>
+                                    <Text style={styles.scoreText}>{game.end.slice(0, index + 1).reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
                                 </View>
                             </Pressable>
-                            <View style={[{ alignSelf: "flex-end", display: selectedEnd === index ? "flex" : "none" }]}>
+                            <View style={[styles.scoreBox, { alignSelf: "center", display: selectedEnd === index ? "flex" : "none" }]}>
+                                <Text style={styles.scoreText}> Image</Text>
+                                <MaterialIcons name="image-not-supported" size={game.end[index].photos === "NONE" ? 0 : 48} color="black" onPress={() => { setUri("NONE"); alert("send from keyboard to condirm edit Image remove")}} />
+                                <Text style={styles.scoreText}> Remove</Text>
                                 <MaterialIcons onPress={() => { removeEnd(id, index); setScore(0); setSelectedTeam(); setSelectedEnd(); }} name="delete" size={48} color="black" />
-
-
+                                <Text style={styles.scoreText}> End</Text>
                             </View>
                         </View>
 
@@ -80,8 +124,9 @@ const EndScore = ({ navigation, route }) => {
             />
             { /*    Score total displayer*/}
             <View style={styles.scoreBox}>
-                <Text style={styles.scoreText}> Total {game.end.reduce((partSum, score) => partSum + score.endScore[0], 0)}</Text>
-                <Text style={styles.scoreText}> || Total {game.end.reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
+                <Text style={styles.scoreText}>{game.end.reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
+                <Text style={styles.scoreText}>Total</Text>
+                <Text style={styles.scoreText}>{game.end.reduce((partSum, score) => partSum + score.endScore[1], 0)}</Text>
             </View>
             <Text style={styles.scoreBox}>Select a scoring team , enter score , press end on keyboard</Text>
             <View style={styles.optionBoxContainer} >
@@ -97,58 +142,29 @@ const EndScore = ({ navigation, route }) => {
                     {game.teamName[1]}
                 </Text>
             </View>
-
-            { /*    Score input boxes   */}
-            <TextInput
-                keyboardType="number-pad"
-                autoFocus={true}
-                placeholder={score.toString()}
-                returnKeyType="send"
-                maxLength={1}
-                onChangeText={text => setScore(Number(text))}
-                onSubmitEditing={() => {
-                    console.log("pressed submit");
-                    console.log(game, selectedTeam, score);
-
-
-
-
-                    if (selectedTeam === (undefined)) {
-                        alert("Select a team");
-                    }
-                    else if (score === "" || !score > 0) { alert("Trype score again") }
-                    else {
-
-                        if (selectedEnd === undefined) {
-
-                            console.log("Score ADD !!!!!!!!!!!!!!!!!!!!!!!!!")
-                            addEnd(id, selectedTeam, score);
-                        }
-                        else {
-                            console.log(selectedEnd);
-
-                            console.log("Score EDIT ============ !!!!!!!!!!!!!!!!!!!!!!!!!")
-                            editEnd(id, selectedTeam, score, selectedEnd);
-                            setSelectedEnd();
-                        }
-                        setScore(0);
-                        setSelectedTeam();
-                    }
-
-
-
-
-
-
-                }}
-                style={[styles.TextInput, styles.inputScore]} />
-
+            <View style={styles.optionBoxContainer}>
+                { /*    Score input boxes   */}
+                <TextInput
+                    keyboardType="number-pad"
+                    autoFocus={true}
+                    placeholder={score.toString()}
+                    returnKeyType="send"
+                    maxLength={1}
+                    onChangeText={text => setScore(Number(text))}
+                    onSubmitEditing={() => { sendKeyboard() }}
+                    style={[styles.TextInput, styles.inputScore]} />
+                <MaterialIcons style={{ display: "flex" }} name={uri === "NONE" ? "camera" : "zoom-out-map"} size={70} color="black" onPress={() => navigation.navigate("CameraScreen", { id, uri })} />
+                <Image style={styles.imageStyle} source={{ uri: uri }} />
+                {/*  <Image source={{ uri }} /> */}
+            </View>
         </View >
 
 
     )
 }
 export default EndScore;
+
+
 
 const styles = StyleSheet.create({
     container: {
@@ -187,18 +203,24 @@ const styles = StyleSheet.create({
     },
     scoreBox: {
         flexDirection: 'row',
-        alignSelf: "center"
+        justifyContent: "space-evenly",
+
+
 
     },
     scoreText: {
         fontSize: 20,
-        textAlign: "center"
+        textAlign: "center",
     },
     scoreBoxContainer: {
         flex: 1,
-        flexDirection: "column"
-
-
-    }
+        flexDirection: "column",
+        borderWidth: 1,
+        borderColor: "black",
+    },
+    imageStyle: {
+        flex: 1,
+        alignSelf: 'stretch'
+    },
 
 });
