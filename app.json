@@ -12,22 +12,34 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/ee598711-5b09-4d46-a130-1177e6f190de"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.eliasdewan.reactassignment1"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.eliasdewan.reactassignment1"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ee598711-5b09-4d46-a130-1177e6f190de"
+      }
+    },
+    "owner": "eliasdewan",
+    "runtimeVersion": {
+      "policy": "sdkVersion"
     }
   }
 }
