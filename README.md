@@ -4,3 +4,7 @@ Targets to implemet
 Conditions:
 - Number of player names can be between 1 – 4 players.
 - Date could be done to automatically with today’s date or can be done via a Date Picker.
+
+
+React native Expo app 
+https://snack.expo.dev/@eliasdewan/gitlab.com-kingston-projects-reactassignment1
